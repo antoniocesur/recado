@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotEmpty;
+import java.sql.Date;
 
 @Entity
 @Transactional
@@ -25,5 +26,9 @@ public class Recado {
     @NotEmpty
     @ManyToOne
     private Autor autor;
+
+    @Column(nullable=false, unique=false)
+    @NotEmpty
+    private Date fecha;
 
 }
