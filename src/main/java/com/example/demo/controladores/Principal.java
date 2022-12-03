@@ -16,6 +16,7 @@ public class Principal {
 
     @GetMapping("/")
     public String index(Model model){
+        model.addAttribute("saludo", "¡Hola murciano!");
         return "index.html";
     }
 }
