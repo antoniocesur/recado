@@ -2,6 +2,8 @@ package com.example.demo.modelo;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotEmpty;
@@ -21,21 +23,21 @@ public class Recado {
     @NotEmpty
     private String contenido;
 
-    @JoinColumn(nullable=false, unique = false)
-    @NotEmpty
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="autor_id", nullable=false)
     private Autor autor;
 
     @Column(nullable=false, unique=false)
     @NotEmpty
     private Date fecha;
 
-    public Long getId() {
-        return id;
-    }
+    public Recado(){
 
-    public void setId(Long id) {
-        this.id = id;
+    }
+    public Recado(String contenido, Autor autor, Date fecha){
+        this.contenido=contenido;
+        this.autor=autor;
+        this.fecha=fecha;
     }
 
 }
