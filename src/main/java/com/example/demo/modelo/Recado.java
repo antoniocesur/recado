@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotEmpty;
 import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 @Transactional
@@ -29,12 +30,12 @@ public class Recado {
 
     @Column(nullable=false, unique=false)
     @NotEmpty
-    private Date fecha;
+    private Time fecha;
 
     public Recado(){
 
     }
-    public Recado(String contenido, Autor autor, Date fecha){
+    public Recado(String contenido, Autor autor, Time fecha){
         this.contenido=contenido;
         this.autor=autor;
         this.fecha=fecha;

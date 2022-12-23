@@ -2,8 +2,6 @@ package com.example.demo;
 
 import com.example.demo.modelo.Autor;
 import com.example.demo.modelo.Recado;
-import com.example.demo.repositorios.RepositorioAutor;
-import com.example.demo.repositorios.RepositorioRecado;
 import com.example.demo.servicios.ServicioAutor;
 import com.example.demo.servicios.ServicioRecado;
 import com.github.javafaker.Faker;
@@ -39,6 +37,8 @@ public class RecadoApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(){
 		return args -> {
+			Autor admin=new Autor("admin", "asalinasci@gmail.com", "1234", "https://tarkhov.github.io/postboot/assets/img/thumbnail.jpg");
+			servicioAutor.save(admin);
 			int max = 10;
 			Faker faker = new Faker(new Locale("es-ES"));
 			HashMap<Integer, Autor> mapAutores = new HashMap<>();

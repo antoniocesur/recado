@@ -19,10 +19,10 @@
 
         <div class="col col-8">
             <div class="row">
-                <form action="" method="post" enctype="multipart/form-data"  th:action="@{/mandarrecado}"   th:object="${recado}">
+                <form action="" method="post" enctype="multipart/form-data"  th:action="@{/}" th:object="${recado}">
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Recado</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" name="recado" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="recado" rows="3" th:field="*{contenido}"></textarea>
                         <button type="submit" class="btn btn-primary pull-right" style="float:right">Mandar recado</button>
 
                     </div>
@@ -35,7 +35,7 @@
                         <img class="img-thumbnail" th:src="*{recado.autor.avatar}"/>
                     </div>
                     <div class="col col-10">
-                        <p style="font-size: 12px;"><span th:text="${recado.autor.nombre}" style="font-weight: bold;">Autor</span> - <span th:text="${recado.fecha}">Fecha</span></p>
+                        <p style="font-size: 12px;"><span th:text="${recado.autor.nombre}" style="font-weight: bold;">Autor</span> - <span th:text="${#dates.format(recado.fecha, 'dd-MM-yyyy HH:mm')}">Fecha</span></p>
                         <p th:text="${recado.contenido}">Tweet</p>
                     </div>
                 </div>

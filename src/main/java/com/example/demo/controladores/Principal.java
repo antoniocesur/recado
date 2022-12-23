@@ -1,6 +1,8 @@
 package com.example.demo.controladores;
 
+import com.example.demo.modelo.Autor;
 import com.example.demo.modelo.Recado;
+import com.example.demo.servicios.ServicioAutor;
 import com.example.demo.servicios.ServicioRecado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Controller
 public class Principal {
     @Autowired
     ServicioRecado servicioRecado;
+    @Autowired
+    ServicioAutor servicioAutor;
 
     @GetMapping("/hola-mundo")
     @ResponseBody
@@ -30,24 +36,22 @@ public class Principal {
         }
         model.addAttribute("saludo", "¡Hola murciano!");
         model.addAttribute("listaRecados", servicioRecado.findAll());
+        model.addAttribute("recado", new Recado()); //Esto es para que el formulario tenga el objeto recado vacío para devolverlo si escriben un nuevo recado
         return "index.html";
     }
 
-    /*@PostMapping("/")
-    public String nuevaAsignatura(@Valid @ModelAttribute("formAsignatura") Asignatura nuevaAsignatura,
-                                  BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/")
+    public String nuevaAsignatura(@ModelAttribute("recado") Recado nuevoRecado,  BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "crud/FormAsignatura";
+            return "/";
         } else {
-            if (!file.isEmpty()) {
-                String imagen = storageService.store(file, nuevaAsignatura.getNombre());
-                System.out.println("La imagen a guardar es : " + imagen);
-                nuevaAsignatura.setImagen(MvcUriComponentsBuilder
-                        .fromMethodName(ControladorFile.class, "serveFile", imagen).build().toUriString());
-            }
-            servicioAsignatura.add(nuevaAsignatura);
-            return "redirect:/asignatura";
+            //Si nos envían contenido desde el formulario, lo añadimos a la BBDD, tenemos que poner también un usuario y una fecha
+            Autor admin=servicioAutor.findByNombre("admin");
+            nuevoRecado.setAutor(admin);
+            nuevoRecado.setFecha(Date.valueOf(LocalDate.now()));
+            servicioRecado.save(nuevoRecado);
+            return "redirect:/";
         }
-    }*/
+    }
 }
