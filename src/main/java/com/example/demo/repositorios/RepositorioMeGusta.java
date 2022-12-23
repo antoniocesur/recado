@@ -12,4 +12,6 @@ import java.util.List;
 public interface RepositorioMeGusta extends JpaRepository<MeGusta, Long> {
     public List<MeGusta> findByAutor(Autor autor);
     public List<MeGusta> findByRecado(Recado recado);
+    public MeGusta findById(long id);
+    public MeGusta findByRecadoAndAutor(Recado recado, Autor autor);
 }

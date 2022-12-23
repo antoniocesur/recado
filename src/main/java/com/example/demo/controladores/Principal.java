@@ -1,8 +1,10 @@
 package com.example.demo.controladores;
 
 import com.example.demo.modelo.Autor;
+import com.example.demo.modelo.MeGusta;
 import com.example.demo.modelo.Recado;
 import com.example.demo.servicios.ServicioAutor;
+import com.example.demo.servicios.ServicioMeGusta;
 import com.example.demo.servicios.ServicioRecado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class Principal {
     ServicioRecado servicioRecado;
     @Autowired
     ServicioAutor servicioAutor;
+    @Autowired
+    ServicioMeGusta servicioMeGusta;
 
     @GetMapping("/hola-mundo")
     @ResponseBody
@@ -57,8 +61,22 @@ public class Principal {
 
     @GetMapping("/megusta/{id}")
     public String meGusta(@PathVariable long id){
-
-
-        return "redirect:/";
+        Autor autor=servicioAutor.findByNombre("admin");
+        Recado recado=servicioRecado.findById(id);
+        MeGusta meGusta=servicioMeGusta.findByRecadoAndAutor(recado, autor);
+        if(meGusta==null) {
+            //Si el "me gusta" no existe, se crea y se pone el estado a true
+            meGusta = new MeGusta();
+            meGusta.setAutor(autor);
+            meGusta.setRecado(recado);
+            meGusta.setEstado(true);
+        }else{
+            //Si el me gusta ya existe, modifico el estado
+            meGusta.setEstado(!meGusta.isEstado());
+            meGusta.setAutor(autor);
+            meGusta.setRecado(recado);
+        }
+        servicioMeGusta.save(meGusta);
+        return "redirect:/" + "#" + id;
     }
 }

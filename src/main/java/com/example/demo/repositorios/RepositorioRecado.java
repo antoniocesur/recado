@@ -11,5 +11,6 @@ public interface RepositorioRecado extends CrudRepository<Recado, Long> {
 
     @Override
     public List<Recado> findAll();
+    public Recado findById(long id);
 
 }

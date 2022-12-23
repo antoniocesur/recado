@@ -5,7 +5,6 @@ import com.example.demo.repositorios.RepositorioRecado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +18,10 @@ public class ServicioRecado {
     public Recado save(Recado recado){
         repositorio.save(recado);
         return recado;
+    }
+
+    public Recado findById(long id){
+        return repositorio.findById(id);
     }
 
 }
