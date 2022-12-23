@@ -45,9 +45,7 @@ public class RecadoApplication {
 			HashMap<Integer, Autor> mapAutores = new HashMap<>();
 			HashMap<Integer, Recado> mapRecados = new HashMap<>();
 
-			for(int i = 0; i < max; i++)
-			{
-				//Autor autor = new Autor(faker.name().firstName(), faker.internet().emailAddress(), faker.internet().password(),"http://cdn.onlinewebfonts.com/svg/img_264157.png");
+			for(int i = 0; i < max; i++){
 				Autor autor = new Autor(faker.name().firstName(), faker.internet().emailAddress(), faker.internet().password(),"https://i.pravatar.cc/150?u=");
 				autor.setAvatar(autor.getAvatar() + autor.getEmail());
 				Recado recado=new Recado(faker.chuckNorris().fact(), autor,Date.valueOf(LocalDate.now()));

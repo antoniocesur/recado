@@ -42,8 +42,7 @@ public class Principal {
     }
 
     @PostMapping("/")
-    public String nuevaAsignatura(@ModelAttribute("recado") Recado nuevoRecado,  BindingResult bindingResult) {
-
+    public String nuevoRecado(@ModelAttribute("recado") Recado nuevoRecado,  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/";
         } else {
@@ -54,5 +53,12 @@ public class Principal {
             servicioRecado.save(nuevoRecado);
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/megusta/{id}")
+    public String meGusta(@PathVariable long id){
+
+
+        return "redirect:/";
     }
 }
