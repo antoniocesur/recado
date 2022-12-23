@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,6 +27,13 @@ public class RecadoApplication {
 	ServicioRecado servicioRecado;
 
 	public static void main(String[] args) {
+		String command = "C:\\xampp\\mysql\\bin\\mysqld.exe";
+		try{
+			Process process = Runtime.getRuntime().exec(command);
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+
 		SpringApplication.run(RecadoApplication.class, args);
 	}
 	@Bean

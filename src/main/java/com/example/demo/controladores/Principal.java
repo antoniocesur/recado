@@ -33,7 +33,7 @@ public class Principal {
         return "index.html";
     }
 
-    @PostMapping("/")
+    /*@PostMapping("/")
     public String nuevaAsignatura(@Valid @ModelAttribute("formAsignatura") Asignatura nuevaAsignatura,
                                   BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
 
@@ -49,5 +49,5 @@ public class Principal {
             servicioAsignatura.add(nuevaAsignatura);
             return "redirect:/asignatura";
         }
-    }
+    }*/
 }
