@@ -37,7 +37,8 @@ public class RecadoApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(){
 		return args -> {
-			Autor admin=new Autor("admin", "asalinasci@gmail.com", "1234", "https://tarkhov.github.io/postboot/assets/img/thumbnail.jpg");
+			Autor admin=new Autor("admin", "asalinasci@gmail.com", "1234", "");
+			admin.setAvatar("https://i.pravatar.cc/150?u=" + admin.getEmail());
 			servicioAutor.save(admin);
 			int max = 10;
 			Faker faker = new Faker(new Locale("es-ES"));
@@ -46,7 +47,9 @@ public class RecadoApplication {
 
 			for(int i = 0; i < max; i++)
 			{
-				Autor autor = new Autor(faker.name().firstName(), faker.internet().emailAddress(), faker.internet().password(),"https://tarkhov.github.io/postboot/assets/img/thumbnail.jpg");
+				//Autor autor = new Autor(faker.name().firstName(), faker.internet().emailAddress(), faker.internet().password(),"http://cdn.onlinewebfonts.com/svg/img_264157.png");
+				Autor autor = new Autor(faker.name().firstName(), faker.internet().emailAddress(), faker.internet().password(),"https://i.pravatar.cc/150?u=");
+				autor.setAvatar(autor.getAvatar() + autor.getEmail());
 				Recado recado=new Recado(faker.chuckNorris().fact(), autor,Date.valueOf(LocalDate.now()));
 				mapAutores.put(i, autor);
 				mapRecados.put(i, recado);

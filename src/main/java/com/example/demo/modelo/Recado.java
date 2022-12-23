@@ -30,12 +30,14 @@ public class Recado {
 
     @Column(nullable=false, unique=false)
     @NotEmpty
-    private Time fecha;
+    private Date fecha;
+
+    private String imagen;
 
     public Recado(){
 
     }
-    public Recado(String contenido, Autor autor, Time fecha){
+    public Recado(String contenido, Autor autor, Date fecha){
         this.contenido=contenido;
         this.autor=autor;
         this.fecha=fecha;
