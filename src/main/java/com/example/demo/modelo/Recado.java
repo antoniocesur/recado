@@ -1,9 +1,12 @@
 package com.example.demo.modelo;
 
+import com.example.demo.servicios.ServicioMeGusta;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotEmpty;
@@ -34,6 +37,10 @@ public class Recado {
 
     private String imagen;
 
+    //Cuento el número de "me gusta" activos para este recado
+    @Formula(value = "(SELECT COUNT(*) FROM me_gusta m WHERE m.recado_id=id AND m.estado=true)")
+    private long numMeGusta;
+
     public Recado(){
 
     }
@@ -42,5 +49,10 @@ public class Recado {
         this.autor=autor;
         this.fecha=fecha;
     }
+
+    /*@Transient
+    public long getNumMeGusta() {
+        return numMeGusta;
+    }*/
 
 }

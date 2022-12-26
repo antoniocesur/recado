@@ -41,7 +41,7 @@
                 </div>
                 <div class="row">
                     <div class="col align-self-end">
-                        <a th:href="@{'/megusta/' + ${recado.id}}" class="btn border-0 pull-right" style="float:right">&#x1F90D;</a>
+                        <a th:href="@{'/megusta/' + ${recado.id}}" class="btn border-0 pull-right" style="float:right"><span th:text="${recado.numMeGusta}"></span> <span th:text="${recado.numMeGusta > 0} ? @{&#10084;&#65039;} : @{&#x1F90D;}"></span></a>
                         <button class="btn border-0 pull-right" style="float:right">🔁</button>
                     </div>
                 </div>

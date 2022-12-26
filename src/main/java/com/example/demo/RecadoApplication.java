@@ -25,6 +25,9 @@ public class RecadoApplication {
 	ServicioRecado servicioRecado;
 
 	public static void main(String[] args) {
+		//Esto lo que hace es iniciar MySQL al arrancar la app
+		//Como es lógico, solo funciona si tienes instalado MySQL en la misma ruta
+		//Si no la conoces e inicias MySQL desde el terminal o con Xampp(o similares) puedes borrar estas líneas
 		String command = "C:\\xampp\\mysql\\bin\\mysqld.exe";
 		try{
 			Process process = Runtime.getRuntime().exec(command);
@@ -37,6 +40,7 @@ public class RecadoApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(){
 		return args -> {
+			//Generamos datos de relleno en la base de datos con Faker y Pravatar (nos da un avatar para email)
 			Autor admin=new Autor("admin", "asalinasci@gmail.com", "1234", "");
 			admin.setAvatar("https://i.pravatar.cc/150?u=" + admin.getEmail());
 			servicioAutor.save(admin);

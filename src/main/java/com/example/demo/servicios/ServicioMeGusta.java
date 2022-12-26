@@ -16,9 +16,14 @@ public class ServicioMeGusta {
     }
     public MeGusta save(MeGusta meGusta){
         repositorioMeGusta.save(meGusta);
+        //Actualizo el numero de MeGusta del Tweet
         return meGusta;
     }
     public MeGusta findByRecadoAndAutor(Recado recado, Autor autor){
         return repositorioMeGusta.findByRecadoAndAutor(recado, autor);
+    }
+
+    public long countByRecado(Recado recado){
+        return repositorioMeGusta.countByRecado(recado);
     }
 }

@@ -42,7 +42,7 @@ public class Principal {
         model.addAttribute("saludo", "¡Hola murciano!");
         model.addAttribute("listaRecados", servicioRecado.findAll());
         model.addAttribute("recado", new Recado()); //Esto es para que el formulario tenga el objeto recado vacío para devolverlo si escriben un nuevo recado
-        return "index.html";
+        return "index";
     }
 
     @PostMapping("/")

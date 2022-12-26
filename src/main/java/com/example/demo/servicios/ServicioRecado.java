@@ -2,13 +2,15 @@ package com.example.demo.servicios;
 
 import com.example.demo.modelo.Recado;
 import com.example.demo.repositorios.RepositorioRecado;
+import org.hibernate.annotations.Formula;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ServicioRecado {
+public class ServicioRecado{
     @Autowired
     RepositorioRecado repositorio;
     public List<Recado> findAll(){
