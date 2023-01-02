@@ -50,18 +50,6 @@ public class ServicioAutor {
         return  repositorio.findByNombreContains(nombre);
     }
 
-    public Autor createAutor(UserDto userDto) throws UserAlreadyExistException {
-        if (emailExists(userDto.getEmail())) {
-            throw new UserAlreadyExistException("There is an account with that email address: " + userDto.getEmail());
-        }
-
-        Autor applicationUser = new Autor();
-        applicationUser.setNombre(userDto.getFirstName());
-        applicationUser.setEmail(userDto.getEmail());
-        applicationUser.setCuenta(userDto.getEmail());
-        applicationUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        return repositorio.save(applicationUser);
-    }
     private boolean emailExists(String email) {
         return repositorio.findByEmail(email) != null;
     }

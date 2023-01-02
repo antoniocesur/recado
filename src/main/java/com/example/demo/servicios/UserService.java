@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
     void saveUser(UserDto userDto);
-
+    Autor createAutor(UserDto userDto);
     Autor findByEmail(String email);
 
     List<UserDto> findAllUsers();

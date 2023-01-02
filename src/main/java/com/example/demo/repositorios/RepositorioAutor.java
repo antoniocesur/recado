@@ -16,6 +16,5 @@ public interface RepositorioAutor extends CrudRepository<Autor, Long> {
     Autor findByNombre(String nombre);
     Autor findByCuenta(String cuenta);
     Autor findByEmail(String email);
-    public Autor createAutor(UserDto userDto);
 
 }

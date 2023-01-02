@@ -115,7 +115,7 @@ public class Principal {
 
     @GetMapping("/users")
     public String listRegisteredUsers(Model model){
-        List<UserDto> users = userService.findAllUsers();
+        List<UserDto> users = servicioAutor.findAllUsers();
         model.addAttribute("users", users);
         return "users";
     }
