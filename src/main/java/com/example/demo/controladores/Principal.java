@@ -3,9 +3,11 @@ package com.example.demo.controladores;
 import com.example.demo.modelo.Autor;
 import com.example.demo.modelo.MeGusta;
 import com.example.demo.modelo.Recado;
+import com.example.demo.modelo.UserDto;
 import com.example.demo.servicios.ServicioAutor;
 import com.example.demo.servicios.ServicioMeGusta;
 import com.example.demo.servicios.ServicioRecado;
+import com.example.demo.servicios.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +20,14 @@ import javax.validation.Valid;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class Principal {
     @Autowired
     ServicioRecado servicioRecado;
     @Autowired
-    ServicioAutor servicioAutor;
+    UserService servicioAutor;
     @Autowired
     ServicioMeGusta servicioMeGusta;
 
@@ -78,5 +81,42 @@ public class Principal {
         }
         servicioMeGusta.save(meGusta);
         return "redirect:/" + "#" + id;
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    // handler method to handle user registration request
+    @GetMapping("register")
+    public String showRegistrationForm(Model model){
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    // handler method to handle register user form submit request
+    @PostMapping("/register/save")
+    public String registration(@Valid @ModelAttribute("user") UserDto user,
+                               BindingResult result,
+                               Model model){
+        Autor existing = servicioAutor.findByEmail(user.getEmail());
+        if (existing != null) {
+            result.rejectValue("email", null, "There is already an account registered with that email");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "register";
+        }
+        servicioAutor.saveUser(user);
+        return "redirect:/register?success";
+    }
+
+    @GetMapping("/users")
+    public String listRegisteredUsers(Model model){
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "users";
     }
 }

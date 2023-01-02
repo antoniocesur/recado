@@ -1,6 +1,7 @@
 package com.example.demo.repositorios;
 
 import com.example.demo.modelo.Autor;
+import com.example.demo.modelo.UserDto;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,8 @@ public interface RepositorioAutor extends CrudRepository<Autor, Long> {
 
     List<Autor> findByNombreContains(String nombre);
     Autor findByNombre(String nombre);
+    Autor findByCuenta(String cuenta);
+    Autor findByEmail(String email);
+    public Autor createAutor(UserDto userDto);
+
 }
