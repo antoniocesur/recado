@@ -16,5 +16,8 @@ public interface RepositorioMeGusta extends JpaRepository<MeGusta, Long> {
     public MeGusta findById(long id);
     public MeGusta findByRecadoAndAutor(Recado recado, Autor autor);
     //@Query("select count(id) from MeGusta m where m.id = ?1") //También se puede hacer así
+    public boolean existsByRecadoAndAutor(Recado recado, Autor autor);
+
     public long countByRecado(Recado recado);
+
 }

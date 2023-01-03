@@ -41,8 +41,12 @@ public class Recado {
     @Formula(value = "(SELECT COUNT(*) FROM me_gusta m WHERE m.recado_id=id AND m.estado=true)")
     private long numMeGusta;
 
-    public Recado(){
+    //Indica si le gusta el recado al usuario activo para cambiar el color del corazón
+    @Transient
+    private boolean meGustaActual;
 
+    public Recado(){
+        meGustaActual=false;
     }
     public Recado(String contenido, Autor autor, Date fecha){
         this.contenido=contenido;

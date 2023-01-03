@@ -29,6 +29,10 @@ public class ServicioAutor {
         return repositorio.findById(id).get();
     }
 
+    public Autor findFirstByEmail(String email){
+        return repositorio.findFirstByEmail(email);
+    }
+
     public Autor edit(Autor e) {
         repositorio.save(e);
         return e;

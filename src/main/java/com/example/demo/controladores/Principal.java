@@ -9,10 +9,14 @@ import com.example.demo.servicios.ServicioMeGusta;
 import com.example.demo.servicios.ServicioRecado;
 import com.example.demo.servicios.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
@@ -31,6 +35,13 @@ public class Principal {
     @Autowired
     ServicioMeGusta servicioMeGusta;
 
+    @GetMapping("/registro")
+    public String showRegistrationForm(WebRequest request, Model model) {
+        Autor userDto = new Autor();
+        model.addAttribute("user", userDto);
+        return "registration";
+    }
+
     @GetMapping("/hola-mundo")
     @ResponseBody
     public String helloWorld(Model model){
@@ -43,7 +54,19 @@ public class Principal {
             System.out.println(recado.toString());
         }
         model.addAttribute("saludo", "¡Hola murciano!");
-        model.addAttribute("listaRecados", servicioRecado.findAll());
+        List<Recado> listaRecados=servicioRecado.findAll();
+
+        ////Compruebo los recados que le gustan al usuario activo para cambiar el color del corazón
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            System.out.println("Nombre usuario: " + currentUserName);
+            Autor autor = servicioAutor.findByEmail(currentUserName);
+            for (Recado recado : listaRecados) {
+                recado.setMeGustaActual(servicioMeGusta.existsByRecadoAndAutor(recado, autor));
+            }
+        }
+        model.addAttribute("listaRecados", listaRecados);
         model.addAttribute("recado", new Recado()); //Esto es para que el formulario tenga el objeto recado vacío para devolverlo si escriben un nuevo recado
         return "index";
     }
@@ -54,32 +77,44 @@ public class Principal {
             return "/";
         } else {
             //Si nos envían contenido desde el formulario, lo añadimos a la BBDD, tenemos que poner también un usuario y una fecha
-            Autor admin=servicioAutor.findByNombre("admin");
-            nuevoRecado.setAutor(admin);
-            nuevoRecado.setFecha(Date.valueOf(LocalDate.now()));
-            servicioRecado.save(nuevoRecado);
-            return "redirect:/";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                String currentUserName = authentication.getName();
+                System.out.println("Nombre usuario: " + currentUserName);
+                Autor autor = servicioAutor.findByEmail(currentUserName);
+                nuevoRecado.setAutor(autor);
+                nuevoRecado.setFecha(Date.valueOf(LocalDate.now()));
+                servicioRecado.save(nuevoRecado);
+            }
         }
+        return "redirect:/";
     }
 
     @GetMapping("/megusta/{id}")
     public String meGusta(@PathVariable long id){
-        Autor autor=servicioAutor.findByNombre("admin");
-        Recado recado=servicioRecado.findById(id);
-        MeGusta meGusta=servicioMeGusta.findByRecadoAndAutor(recado, autor);
-        if(meGusta==null) {
-            //Si el "me gusta" no existe, se crea y se pone el estado a true
-            meGusta = new MeGusta();
-            meGusta.setAutor(autor);
-            meGusta.setRecado(recado);
-            meGusta.setEstado(true);
-        }else{
-            //Si el me gusta ya existe, modifico el estado
-            meGusta.setEstado(!meGusta.isEstado());
-            meGusta.setAutor(autor);
-            meGusta.setRecado(recado);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            System.out.println("Nombre usuario: " + currentUserName);
+            Autor autor = servicioAutor.findByEmail(currentUserName);
+
+            //Autor autor=servicioAutor.findByNombre("admin");
+            Recado recado = servicioRecado.findById(id);
+            MeGusta meGusta = servicioMeGusta.findByRecadoAndAutor(recado, autor);
+            if (meGusta == null) {
+                //Si el "me gusta" no existe, se crea y se pone el estado a true
+                meGusta = new MeGusta();
+                meGusta.setAutor(autor);
+                meGusta.setRecado(recado);
+                meGusta.setEstado(true);
+            } else {
+                //Si el me gusta ya existe, modifico el estado
+                meGusta.setEstado(!meGusta.isEstado());
+                //meGusta.setAutor(autor);
+                //meGusta.setRecado(recado);
+            }
+            servicioMeGusta.save(meGusta);
         }
-        servicioMeGusta.save(meGusta);
         return "redirect:/" + "#" + id;
     }
 

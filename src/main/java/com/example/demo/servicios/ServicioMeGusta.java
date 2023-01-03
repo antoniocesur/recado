@@ -22,8 +22,11 @@ public class ServicioMeGusta {
     public MeGusta findByRecadoAndAutor(Recado recado, Autor autor){
         return repositorioMeGusta.findByRecadoAndAutor(recado, autor);
     }
-
+    public boolean existsByRecadoAndAutor(Recado recado, Autor autor){
+        return repositorioMeGusta.existsByRecadoAndAutor(recado, autor);
+    }
     public long countByRecado(Recado recado){
         return repositorioMeGusta.countByRecado(recado);
     }
+
 }
