@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<html lang="es" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Recados, el Twitter murciano</title>
@@ -18,9 +18,9 @@
         <p th:text="*{saludo}">Lo que sea</p>
 
         <div class="col col-8">
-            <div class="row">
+            <div sec:authorize="isAuthenticated()" class="row">
                 <form action="" method="post" enctype="multipart/form-data"  th:action="@{/}" th:object="${recado}">
-                    <div class="mb-3">
+                    <div class="mb-3" >
                         <label for="exampleFormControlTextarea1" class="form-label">Recado</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" name="recado" rows="3" th:field="*{contenido}"></textarea>
                         <button type="submit" class="btn btn-primary pull-right" style="float:right">Mandar recado</button>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="row">
                     <div class="col align-self-end">
-                        <a th:href="@{'/megusta/' + ${recado.id}}" class="btn border-0 pull-right" style="float:right"><span th:text="${recado.numMeGusta}"></span> <span th:text="${recado.numMeGusta > 0} ? @{&#10084;&#65039;} : @{&#x1F90D;}"></span></a>
+                        <a th:href="@{'/megusta/' + ${recado.id}}" class="btn border-0 pull-right" style="float:right"><span th:text="${recado.numMeGusta}"></span> <span th:text="${recado.meGustaActual} ? @{&#10084;&#65039;} : @{&#x1F90D;}"></span></a>
                         <button class="btn border-0 pull-right" style="float:right">🔁</button>
                     </div>
                 </div>

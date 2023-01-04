@@ -63,7 +63,7 @@ public class Principal {
             System.out.println("Nombre usuario: " + currentUserName);
             Autor autor = servicioAutor.findByEmail(currentUserName);
             for (Recado recado : listaRecados) {
-                recado.setMeGustaActual(servicioMeGusta.existsByRecadoAndAutor(recado, autor));
+                recado.setMeGustaActual(servicioMeGusta.activoRecadoAndAutor(recado, autor));
             }
         }
         model.addAttribute("listaRecados", listaRecados);
@@ -93,6 +93,7 @@ public class Principal {
     @GetMapping("/megusta/{id}")
     public String meGusta(@PathVariable long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.toString());
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
             System.out.println("Nombre usuario: " + currentUserName);
@@ -110,8 +111,6 @@ public class Principal {
             } else {
                 //Si el me gusta ya existe, modifico el estado
                 meGusta.setEstado(!meGusta.isEstado());
-                //meGusta.setAutor(autor);
-                //meGusta.setRecado(recado);
             }
             servicioMeGusta.save(meGusta);
         }

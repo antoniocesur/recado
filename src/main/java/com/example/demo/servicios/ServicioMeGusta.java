@@ -25,6 +25,11 @@ public class ServicioMeGusta {
     public boolean existsByRecadoAndAutor(Recado recado, Autor autor){
         return repositorioMeGusta.existsByRecadoAndAutor(recado, autor);
     }
+
+    public boolean activoRecadoAndAutor(Recado recado, Autor autor){
+        MeGusta meGusta=this.findByRecadoAndAutor(recado, autor);
+        return meGusta!=null && meGusta.isEstado();
+    }
     public long countByRecado(Recado recado){
         return repositorioMeGusta.countByRecado(recado);
     }
