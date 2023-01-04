@@ -35,13 +35,6 @@ public class Principal {
     @Autowired
     ServicioMeGusta servicioMeGusta;
 
-    @GetMapping("/registro")
-    public String showRegistrationForm(WebRequest request, Model model) {
-        Autor userDto = new Autor();
-        model.addAttribute("user", userDto);
-        return "registration";
-    }
-
     @GetMapping("/hola-mundo")
     @ResponseBody
     public String helloWorld(Model model){
