@@ -116,7 +116,7 @@ public class Principal {
     }
 
     // handler method to handle user registration request
-    @GetMapping("register")
+    @GetMapping("/registro")
     public String showRegistrationForm(Model model){
         UserDto user = new UserDto();
         model.addAttribute("user", user);
@@ -124,7 +124,7 @@ public class Principal {
     }
 
     // handler method to handle register user form submit request
-    @PostMapping("/register/save")
+    @PostMapping("/registro/save")
     public String registration(@Valid @ModelAttribute("user") UserDto user,
                                BindingResult result,
                                Model model){

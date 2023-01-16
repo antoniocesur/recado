@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -41,6 +42,7 @@ public class RecadoApplication {
 
 		SpringApplication.run(RecadoApplication.class, args);
 	}
+
 	@Bean
 	CommandLineRunner commandLineRunner(){
 		return args -> {
