@@ -28,7 +28,7 @@ public class Autor {
     @NotEmpty
     private String nombre;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     @NotEmpty
     private String cuenta;
 

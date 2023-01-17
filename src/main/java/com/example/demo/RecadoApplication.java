@@ -4,23 +4,24 @@ import com.example.demo.modelo.Autor;
 import com.example.demo.modelo.Recado;
 import com.example.demo.servicios.ServicioAutor;
 import com.example.demo.servicios.ServicioRecado;
+import com.example.demo.storage.StorageProperties;
+import com.example.demo.storage.StorageService;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Locale;
 
 //TODO: Retweet, "me gusta" AJAX sin recargar,Login y registro
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class RecadoApplication {
 	@Autowired
 	ServicioAutor servicioAutor;
@@ -33,12 +34,12 @@ public class RecadoApplication {
 		//Esto inicia MySQL al arrancar la app
 		//Como es lógico, solo funciona si tienes instalado MySQL en la misma ruta
 		//Si no la conoces o prefieres iniciar MySQL desde el terminal o con Xampp(o similares) puedes borrar estas líneas
-		String command = "C:\\xampp\\mysql\\bin\\mysqld.exe";
+		/*String command = "C:\\xampp\\mysql\\bin\\mysqld.exe";
 		try{
 			Process process = Runtime.getRuntime().exec(command);
 		}catch (IOException e){
 			e.printStackTrace();
-		}
+		}*/
 
 		SpringApplication.run(RecadoApplication.class, args);
 	}
@@ -63,5 +64,13 @@ public class RecadoApplication {
 			}
 		};
 	}
+
+	/*@Bean
+	CommandLineRunner init(StorageService storageService) {
+		return (args) -> {
+			//storageService.deleteAll();
+			storageService.init();
+		};
+	}*/
 
 }
