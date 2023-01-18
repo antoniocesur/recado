@@ -35,6 +35,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/subirarchivo").authenticated()
                                 .requestMatchers("/megusta/**").permitAll()
+                                .requestMatchers("/upload-dir/**").permitAll()
+                                .requestMatchers("/files/**").permitAll()
                                 .requestMatchers("/users").authenticated()
                 ).formLogin(
                         form -> form

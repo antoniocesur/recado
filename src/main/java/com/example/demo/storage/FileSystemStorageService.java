@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @Service
@@ -26,15 +27,21 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
+        String nombreFichero=null;
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Error al almacenar el fichero " + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(LocalDate.now().toString() + file.getOriginalFilename()));
+            //Le he añadido la fecha y hora actual al archivo subido
+            nombreFichero=LocalDateTime.now().toString().replaceAll(":", "_") + file.getOriginalFilename();
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(nombreFichero));
         } catch (IOException e) {
             throw new StorageException("Error al almacenar el fichero " + file.getOriginalFilename(), e);
         }
+
+        //voy a añadir que devuelva el nombre que le da al archivo
+        return nombreFichero;
     }
 
     @Override

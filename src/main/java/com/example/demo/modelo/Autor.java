@@ -24,6 +24,7 @@ public class Autor {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    //Todos los unique están en "false" para no tener problemas con el Faker, ya lo cambiaré
     @Column(nullable=false, unique = false)
     @NotEmpty
     private String nombre;

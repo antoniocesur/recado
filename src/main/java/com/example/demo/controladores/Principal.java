@@ -8,6 +8,7 @@ import com.example.demo.servicios.ServicioAutor;
 import com.example.demo.servicios.ServicioMeGusta;
 import com.example.demo.servicios.ServicioRecado;
 import com.example.demo.servicios.UserService;
+import com.example.demo.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,8 @@ public class Principal {
     UserService servicioAutor;
     @Autowired
     ServicioMeGusta servicioMeGusta;
+    @Autowired
+    StorageService storageService;
 
     @GetMapping("/hola-mundo")
     @ResponseBody
@@ -65,7 +68,7 @@ public class Principal {
     }
 
     @PostMapping("/")
-    public String nuevoRecado(@ModelAttribute("recado") Recado nuevoRecado,  BindingResult bindingResult) {
+    public String nuevoRecado(@ModelAttribute("recado") Recado nuevoRecado, @RequestParam("file") MultipartFile file, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/";
         } else {
@@ -77,6 +80,10 @@ public class Principal {
                 Autor autor = servicioAutor.findByEmail(currentUserName);
                 nuevoRecado.setAutor(autor);
                 nuevoRecado.setFecha(Date.valueOf(LocalDate.now()));
+
+                String nombreRealFichero=storageService.store(file);
+                nuevoRecado.setImagen(nombreRealFichero);
+
                 servicioRecado.save(nuevoRecado);
             }
         }

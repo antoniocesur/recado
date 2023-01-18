@@ -19,6 +19,7 @@
                     <div class="mb-3" >
                         <label for="exampleFormControlTextarea1" class="form-label">Recado</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" name="recado" rows="3" th:field="*{contenido}"></textarea>
+                        <input type="file" name="file" value="Subir imagen" />
                         <button type="submit" class="btn btn-primary pull-right" style="float:right">Mandar recado</button>
 
                     </div>
@@ -33,6 +34,8 @@
                     <div class="col col-10">
                         <p style="font-size: 12px;"><span th:text="${recado.autor.nombre}" style="font-weight: bold;">Autor</span> - <span th:text="${#dates.format(recado.fecha, 'dd-MM-yyyy HH:mm')}">Fecha</span></p>
                         <p th:text="${recado.contenido}">Tweet</p>
+
+                        <img th:if="${recado.imagen!=null}" th:src="${'/files/' + recado.imagen}" class="rounded img-thumbnail">
                     </div>
                 </div>
                 <div class="row">
